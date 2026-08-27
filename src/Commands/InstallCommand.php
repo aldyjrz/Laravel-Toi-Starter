@@ -153,13 +153,27 @@ class InstallCommand extends Command
                 return;
             }
 
+            // Extract only the Toi route definitions (skip <?php tag and use statements)
+            $toiRoutes = $this->extractAppendableRoutes($stubContent);
+
             // Append Toi routes to existing web.php
-            $this->files->append($target, "\n" . $stubContent);
+            $this->files->append($target, "\n" . $toiRoutes);
             $this->line('  <info>✓</info> Appending auth routes to web.php');
             return;
         }
 
         $this->copyFile($this->getPackagePath() . '/stubs/routes/web.php.stub', $target, $force, 'Web routes');
+    }
+
+    private function extractAppendableRoutes(string $stubContent): string
+    {
+        // Remove the <?php opening tag and leading/trailing whitespace
+        $content = preg_replace('/^<\?php\s*/', '', $stubContent);
+
+        // Remove only the Route facade use statement (likely already present in host app)
+        $content = str_replace('use Illuminate\Support\Facades\Route;', '', $content);
+
+        return trim($content);
     }
 
     private function installBladeLayouts(bool $force): void
