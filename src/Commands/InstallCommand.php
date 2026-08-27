@@ -6,7 +6,6 @@ namespace Aldytoi\LaravelToi\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\Str;
 
 class InstallCommand extends Command
 {
@@ -70,25 +69,41 @@ class InstallCommand extends Command
         return true;
     }
 
+    private function getPackagePath(): string
+    {
+        return dirname(__DIR__, 2);
+    }
+
     private function installConfig(bool $force): void
     {
         $target = config_path('toi.php');
-        $this->copyFile(__DIR__ . '/../../config/toi.php', $target, $force, 'Configuration');
+        $this->copyFile($this->getPackagePath() . '/config/toi.php', $target, $force, 'Configuration');
     }
 
     private function installUserModel(bool $force): void
     {
         $target = app_path('Models/User.php');
-        $this->copyFile(__DIR__ . '/../../stubs/Models/User.php.stub', $target, $force, 'User model');
+
+        if ($this->files->exists($target) && !$force) {
+            // Check if the existing model has the password cast
+            $content = $this->files->get($target);
+            if (str_contains($content, "'password' => 'hashed'") || str_contains($content, "'password' => \"hashed\"")) {
+                $this->line('  <info>⏭</info> User model already has password cast. Skipping.');
+                return;
+            }
+            $this->line('  <info>⚠</info> User model exists but missing password cast. Use <comment>--force</comment> to replace.');
+            return;
+        }
+
+        $this->copyFile($this->getPackagePath() . '/stubs/Models/User.php.stub', $target, $force, 'User model');
     }
 
     private function installMigration(bool $force): void
     {
         $timestamp = date('Y_m_d_His');
         $target = database_path("migrations/{$timestamp}_create_users_table.php");
-        $source = __DIR__ . '/../../stubs/migrations/create_users_table.php.stub';
+        $source = $this->getPackagePath() . '/stubs/migrations/create_users_table.php.stub';
 
-        // Check if users migration already exists
         if (!$force && $this->hasUsersMigration()) {
             $this->line('  <info>⏭</info> Users migration already exists. Skipping.');
             return;
@@ -106,7 +121,7 @@ class InstallCommand extends Command
     private function installBaseController(bool $force): void
     {
         $target = app_path('Http/Controllers/Controller.php');
-        $this->copyFile(__DIR__ . '/../../stubs/Controllers/Controller.php.stub', $target, $force, 'Base controller');
+        $this->copyFile($this->getPackagePath() . '/stubs/Controllers/Controller.php.stub', $target, $force, 'Base controller');
     }
 
     private function installAuthControllers(bool $force): void
@@ -119,7 +134,7 @@ class InstallCommand extends Command
 
         foreach ($controllers as $controller) {
             $target = app_path("Http/Controllers/Auth/{$controller}");
-            $source = __DIR__ . "/../../stubs/Controllers/Auth/{$controller}.stub";
+            $source = $this->getPackagePath() . "/stubs/Controllers/Auth/{$controller}.stub";
             $this->copyFile($source, $target, $force, "Auth/{$controller}");
         }
     }
@@ -127,7 +142,24 @@ class InstallCommand extends Command
     private function installRoutes(bool $force): void
     {
         $target = base_path('routes/web.php');
-        $this->copyFile(__DIR__ . '/../../stubs/routes/web.php.stub', $target, $force, 'Web routes');
+        $stubContent = $this->files->get($this->getPackagePath() . '/stubs/routes/web.php.stub');
+
+        if ($this->files->exists($target) && !$force) {
+            $existingContent = $this->files->get($target);
+
+            // Check if our routes marker already exists
+            if (str_contains($existingContent, '// Laravel Toi Routes')) {
+                $this->line('  <info>⏭</info> Toi routes already present in web.php. Skipping.');
+                return;
+            }
+
+            // Append Toi routes to existing web.php
+            $this->files->append($target, "\n" . $stubContent);
+            $this->line('  <info>✓</info> Appending auth routes to web.php');
+            return;
+        }
+
+        $this->copyFile($this->getPackagePath() . '/stubs/routes/web.php.stub', $target, $force, 'Web routes');
     }
 
     private function installBladeLayouts(bool $force): void
@@ -139,7 +171,7 @@ class InstallCommand extends Command
 
         foreach ($layouts as $layout) {
             $target = resource_path("views/layouts/{$layout}");
-            $source = __DIR__ . "/../../stubs/views/layouts/{$layout}.stub";
+            $source = $this->getPackagePath() . "/stubs/views/layouts/{$layout}.stub";
             $this->copyFile($source, $target, $force, "Layout {$layout}");
         }
     }
@@ -153,7 +185,7 @@ class InstallCommand extends Command
 
         foreach ($views as $view) {
             $target = resource_path("views/auth/{$view}");
-            $source = __DIR__ . "/../../stubs/views/auth/{$view}.stub";
+            $source = $this->getPackagePath() . "/stubs/views/auth/{$view}.stub";
             $this->copyFile($source, $target, $force, "Auth view {$view}");
         }
     }
@@ -161,15 +193,15 @@ class InstallCommand extends Command
     private function installDashboardView(bool $force): void
     {
         $target = resource_path('views/dashboard/index.blade.php');
-        $source = __DIR__ . '/../../stubs/views/dashboard/index.blade.php.stub';
+        $source = $this->getPackagePath() . '/stubs/views/dashboard/index.blade.php.stub';
         $this->copyFile($source, $target, $force, 'Dashboard view');
     }
 
     private function installFrontendResources(bool $force): void
     {
         $resources = [
-            'resources/css/app.css' => __DIR__ . '/../../stubs/resources/css/app.css',
-            'resources/js/app.js' => __DIR__ . '/../../stubs/resources/js/app.js',
+            'resources/css/app.css' => $this->getPackagePath() . '/stubs/resources/css/app.css',
+            'resources/js/app.js' => $this->getPackagePath() . '/stubs/resources/js/app.js',
         ];
 
         foreach ($resources as $targetPath => $sourcePath) {
