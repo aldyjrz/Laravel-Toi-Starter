@@ -5,7 +5,7 @@
 @section('content')
 <div class="text-center mb-8">
     <div class="inline-flex items-center justify-center w-16 h-16 bg-indigo-100 rounded-full mb-4">
-        <x-lucide-log-in class="w-8 h-8 text-indigo-600" />
+        @lucide('log-in')
     </div>
     <h1 class="text-2xl font-bold text-gray-900">Welcome back</h1>
     <p class="text-gray-600 mt-1">Sign in to your account to continue</p>
@@ -29,7 +29,7 @@
         <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email address</label>
         <div class="relative">
             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <x-lucide-mail class="w-5 h-5 text-gray-400" />
+                @lucide('mail')
             </div>
             <input
                 id="email"
@@ -53,7 +53,7 @@
         <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
         <div class="relative">
             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <x-lucide-lock class="w-5 h-5 text-gray-400" />
+                @lucide('lock')
             </div>
             <input
                 id="password"
@@ -69,8 +69,10 @@
                 onclick="togglePassword()"
                 class="absolute inset-y-0 right-0 pr-3 flex items-center"
                 aria-label="Toggle password visibility"
+                id="toggle-btn"
             >
-                <x-lucide-eye class="w-5 h-5 text-gray-400 hover:text-gray-600" id="eye-icon" />
+                <span id="eye-open">@lucide('eye')</span>
+                <span id="eye-closed" class="hidden">@lucide('eye-off')</span>
             </button>
         </div>
         @error('password')
@@ -96,7 +98,7 @@
         type="submit"
         class="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-indigo-600 text-white font-medium text-sm rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors"
     >
-        <x-lucide-log-in class="w-4 h-4" />
+        @lucide('log-in')
         Sign in
     </button>
 </form>
@@ -109,13 +111,16 @@
 <script>
 function togglePassword() {
     const input = document.getElementById('password');
-    const icon = document.getElementById('eye-icon');
+    const open = document.getElementById('eye-open');
+    const closed = document.getElementById('eye-closed');
     if (input.type === 'password') {
         input.type = 'text';
-        icon.classList.replace('lucide-eye', 'lucide-eye-off');
+        open.classList.add('hidden');
+        closed.classList.remove('hidden');
     } else {
         input.type = 'password';
-        icon.classList.replace('lucide-eye-off', 'lucide-eye');
+        open.classList.remove('hidden');
+        closed.classList.add('hidden');
     }
 }
 </script>

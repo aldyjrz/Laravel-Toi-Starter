@@ -33,15 +33,15 @@
         <!-- Navigation -->
         <nav class="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
             <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-lg bg-indigo-50 text-indigo-700">
-                <x-lucide-layout-dashboard class="w-5 h-5" />
+                @lucide('layout-dashboard')
                 Dashboard
             </a>
             <a href="#" class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-lg text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition-colors">
-                <x-lucide-users class="w-5 h-5" />
+                @lucide('users')
                 Users
             </a>
             <a href="#" class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-lg text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition-colors">
-                <x-lucide-settings class="w-5 h-5" />
+                @lucide('settings')
                 Settings
             </a>
         </nav>
@@ -49,13 +49,13 @@
         <!-- Bottom Navigation -->
         <div class="border-t border-gray-200 px-3 py-3 space-y-1">
             <a href="#" class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-lg text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition-colors">
-                <x-lucide-user-circle class="w-5 h-5" />
+                @lucide('user-circle')
                 Profile
             </a>
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
                 <button type="submit" class="w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-lg text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition-colors">
-                    <x-lucide-log-out class="w-5 h-5" />
+                    @lucide('log-out')
                     Logout
                 </button>
             </form>
@@ -73,13 +73,13 @@
                     class="lg:hidden p-2 rounded-lg text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                     aria-label="Open menu"
                 >
-                    <x-lucide-menu class="w-5 h-5" />
+                    @lucide('menu')
                 </button>
 
                 <!-- Search -->
                 <div class="hidden sm:flex flex-1 max-w-md mx-4">
                     <div class="relative w-full">
-                        <x-lucide-search class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                        <div class="absolute left-3 top-1/2 -translate-y-1/2">@lucide('search')</div>
                         <input
                             type="text"
                             placeholder="Search..."
@@ -95,7 +95,7 @@
                         class="relative p-2 rounded-lg text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                         aria-label="Notifications"
                     >
-                        <x-lucide-bell class="w-5 h-5" />
+                        @lucide('bell')
                         <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full"></span>
                     </button>
 
@@ -109,7 +109,7 @@
                                 <span class="text-indigo-600 font-medium text-sm">{{ substr(Auth::user()->name, 0, 1) }}</span>
                             </div>
                             <span class="hidden sm:block text-sm font-medium text-gray-700">{{ Auth::user()->name }}</span>
-                            <x-lucide-chevron-down class="w-4 h-4 text-gray-500" />
+                            @lucide('chevron-down')
                         </button>
 
                         <div
@@ -150,7 +150,7 @@
                             <p class="text-xs text-green-600 mt-1">+12% from last month</p>
                         </div>
                         <div class="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center">
-                            <x-lucide-users class="w-6 h-6 text-indigo-600" />
+                            @lucide('users')
                         </div>
                     </div>
                 </div>
@@ -164,7 +164,7 @@
                             <p class="text-xs text-green-600 mt-1">+5% from last month</p>
                         </div>
                         <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
-                            <x-lucide-user-plus class="w-6 h-6 text-green-600" />
+                            @lucide('user-plus')
                         </div>
                     </div>
                 </div>
@@ -178,7 +178,7 @@
                             <p class="text-xs text-gray-500 mt-1">Currently online</p>
                         </div>
                         <div class="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center">
-                            <x-lucide-user-check class="w-6 h-6 text-amber-600" />
+                            @lucide('user-check')
                         </div>
                     </div>
                 </div>
@@ -192,7 +192,7 @@
                 <div class="divide-y divide-gray-200">
                     <div class="px-6 py-4 flex items-center gap-4">
                         <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
-                            <x-lucide-user-plus class="w-5 h-5 text-green-600" />
+                            @lucide('user-plus')
                         </div>
                         <div class="flex-1 min-w-0">
                             <p class="text-sm font-medium text-gray-900">New user registered</p>
@@ -201,7 +201,7 @@
                     </div>
                     <div class="px-6 py-4 flex items-center gap-4">
                         <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
-                            <x-lucide-users class="w-5 h-5 text-blue-600" />
+                            @lucide('users')
                         </div>
                         <div class="flex-1 min-w-0">
                             <p class="text-sm font-medium text-gray-900">User profile updated</p>
@@ -210,7 +210,7 @@
                     </div>
                     <div class="px-6 py-4 flex items-center gap-4">
                         <div class="w-10 h-10 bg-indigo-100 rounded-full flex items-center justify-center flex-shrink-0">
-                            <x-lucide-settings class="w-5 h-5 text-indigo-600" />
+                            @lucide('settings')
                         </div>
                         <div class="flex-1 min-w-0">
                             <p class="text-sm font-medium text-gray-900">New account created</p>

@@ -5,7 +5,7 @@
 @section('content')
 <div class="text-center mb-8">
     <div class="inline-flex items-center justify-center w-16 h-16 bg-indigo-100 rounded-full mb-4">
-        <x-lucide-user-plus class="w-8 h-8 text-indigo-600" />
+        @lucide('user-plus')
     </div>
     <h1 class="text-2xl font-bold text-gray-900">Create an account</h1>
     <p class="text-gray-600 mt-1">Get started with your free account</p>
@@ -29,7 +29,7 @@
         <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Full name</label>
         <div class="relative">
             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <x-lucide-user class="w-5 h-5 text-gray-400" />
+                @lucide('user')
             </div>
             <input
                 id="name"
@@ -53,7 +53,7 @@
         <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email address</label>
         <div class="relative">
             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <x-lucide-mail class="w-5 h-5 text-gray-400" />
+                @lucide('mail')
             </div>
             <input
                 id="email"
@@ -76,7 +76,7 @@
         <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
         <div class="relative">
             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <x-lucide-lock class="w-5 h-5 text-gray-400" />
+                @lucide('lock')
             </div>
             <input
                 id="password"
@@ -89,11 +89,12 @@
             />
             <button
                 type="button"
-                onclick="togglePassword('password', 'eye-icon-pw')"
+                onclick="togglePassword('password', 'eye-open-pw', 'eye-closed-pw')"
                 class="absolute inset-y-0 right-0 pr-3 flex items-center"
                 aria-label="Toggle password visibility"
             >
-                <x-lucide-eye class="w-5 h-5 text-gray-400 hover:text-gray-600" id="eye-icon-pw" />
+                <span id="eye-open-pw">@lucide('eye')</span>
+                <span id="eye-closed-pw" class="hidden">@lucide('eye-off')</span>
             </button>
         </div>
         @error('password')
@@ -106,7 +107,7 @@
         <label for="password_confirmation" class="block text-sm font-medium text-gray-700 mb-1">Confirm password</label>
         <div class="relative">
             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <x-lucide-lock class="w-5 h-5 text-gray-400" />
+                @lucide('lock')
             </div>
             <input
                 id="password_confirmation"
@@ -119,11 +120,12 @@
             />
             <button
                 type="button"
-                onclick="togglePassword('password_confirmation', 'eye-icon-cp')"
+                onclick="togglePassword('password_confirmation', 'eye-open-cp', 'eye-closed-cp')"
                 class="absolute inset-y-0 right-0 pr-3 flex items-center"
                 aria-label="Toggle password visibility"
             >
-                <x-lucide-eye class="w-5 h-5 text-gray-400 hover:text-gray-600" id="eye-icon-cp" />
+                <span id="eye-open-cp">@lucide('eye')</span>
+                <span id="eye-closed-cp" class="hidden">@lucide('eye-off')</span>
             </button>
         </div>
         @error('password_confirmation')
@@ -136,7 +138,7 @@
         type="submit"
         class="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-indigo-600 text-white font-medium text-sm rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors"
     >
-        <x-lucide-user-plus class="w-4 h-4" />
+        @lucide('user-plus')
         Create account
     </button>
 </form>
@@ -147,15 +149,18 @@
 </p>
 
 <script>
-function togglePassword(inputId, iconId) {
+function togglePassword(inputId, openId, closedId) {
     const input = document.getElementById(inputId);
-    const icon = document.getElementById(iconId);
+    const open = document.getElementById(openId);
+    const closed = document.getElementById(closedId);
     if (input.type === 'password') {
         input.type = 'text';
-        icon.classList.replace('lucide-eye', 'lucide-eye-off');
+        open.classList.add('hidden');
+        closed.classList.remove('hidden');
     } else {
         input.type = 'password';
-        icon.classList.replace('lucide-eye-off', 'lucide-eye');
+        open.classList.remove('hidden');
+        closed.classList.add('hidden');
     }
 }
 </script>
