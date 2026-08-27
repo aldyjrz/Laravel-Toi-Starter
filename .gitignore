@@ -1,0 +1,178 @@
+# ==========================================
+# Laravel Toi Starter
+# ==========================================
+
+# ------------------------------------------
+# Laravel
+# ------------------------------------------
+
+/.env
+/.env.*
+!.env.example
+
+/storage/app/*
+!/storage/app/.gitignore
+
+/storage/framework/cache/*
+!/storage/framework/cache/.gitignore
+
+/storage/framework/sessions/*
+!/storage/framework/sessions/.gitignore
+
+/storage/framework/testing/*
+!/storage/framework/testing/.gitignore
+
+/storage/framework/views/*
+!/storage/framework/views/.gitignore
+
+/storage/logs/*
+!/storage/logs/.gitignore
+
+/bootstrap/cache/*
+
+# Laravel generated encryption key
+/storage/*.key
+
+
+# ------------------------------------------
+# Composer
+# ------------------------------------------
+
+/vendor/
+
+
+# ------------------------------------------
+# Node.js / NPM
+# ------------------------------------------
+
+/node_modules/
+**/node_modules/
+
+/npm-debug.log*
+/yarn-debug.log*
+/yarn-error.log*
+/pnpm-debug.log*
+
+# npm cache
+.npm/
+
+
+# ------------------------------------------
+# Frontend Build
+# ------------------------------------------
+
+/public/build/
+/public/hot/
+/public/storage
+
+/dist/
+**/dist/
+
+# Vite
+.vite/
+
+
+# ------------------------------------------
+# Testing
+# ------------------------------------------
+
+.phpunit.result.cache
+.phpunit.cache/
+coverage/
+clover.xml
+
+
+# ------------------------------------------
+# IDE
+# ------------------------------------------
+
+.idea/
+.vscode/
+
+# Keep VSCode project recommendations if desired
+!.vscode/extensions.json
+!.vscode/settings.json
+
+*.iml
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+
+# ------------------------------------------
+# OS
+# ------------------------------------------
+
+.DS_Store
+.AppleDouble
+.LSOverride
+
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+
+# ------------------------------------------
+# Temporary files
+# ------------------------------------------
+
+*.log
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+
+.cache/
+.tmp/
+temp/
+
+
+# ------------------------------------------
+# PHP / Development Tools
+# ------------------------------------------
+
+.php-cs-fixer.cache
+.phpstan.cache
+.phpstan.neon.tmp
+
+/.phpunit.cache/
+
+
+# ------------------------------------------
+# Docker
+# ------------------------------------------
+
+docker-compose.override.yml
+docker-compose.local.yml
+
+
+# ------------------------------------------
+# Package Development
+# ------------------------------------------
+
+# Local Composer artifacts
+/composer.lock
+
+# Do NOT ignore package metadata
+# composer.json must be committed
+
+# Local package test applications
+/tests/tmp/
+/tests/fixtures/tmp/
+
+
+# ------------------------------------------
+# Environment / Secrets
+# ------------------------------------------
+
+*.pem
+*.key
+*.crt
+
+# Except documentation/examples if needed
+!*.example
+.freebuff
+AGENTS.md
+PRD.md 
