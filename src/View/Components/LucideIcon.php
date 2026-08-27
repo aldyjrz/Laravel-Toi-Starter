@@ -13,11 +13,9 @@ class LucideIcon extends Component
         public string $class = '',
     ) {}
 
-    public function render()
+    public function render(): string
     {
-        return function (array $data) {
-            return $this->getSvg($this->name);
-        };
+        return $this->getSvg($this->name);
     }
 
     private function getSvg(string $name): string
